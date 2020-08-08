@@ -16,18 +16,14 @@ print("CONNECTION", type(connection))
 
 if __name__ == '__main__':
 
-
-
     sentences = [
         "This is a sentence!",
         "This is a similar sentence!",
         "I don't think this sentence is very similar at all...",
     ]
 
-
     embeddings = list(connection.embed_sentences(sentences))
     print(embeddings)
-
 
     embedding = connection.embed_sentence("Hello World!!!")
 

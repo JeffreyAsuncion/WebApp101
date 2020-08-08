@@ -41,3 +41,5 @@ flask db upgrade #> creates the specified tables
 export FLASK_APP=web_app
 flask run
 ```
+
+lecture 2 ___  27:15
