@@ -41,13 +41,10 @@ def new_book():
 def create_book():
     print("FORM DATA:", dict(request.form))
 
- 
     # INSERT INTO books ...
     new_book = Book(title=request.form["book_title"], author_id=request.form["author_name"])
     db.session.add(new_book)
     db.session.commit()
-
-
 
     return jsonify({
         "message": "BOOK CREATED OK (TODO)",

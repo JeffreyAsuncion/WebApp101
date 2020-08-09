@@ -42,4 +42,11 @@ export FLASK_APP=web_app
 flask run
 ```
 
-lecture 2 ___  27:15
+lecture 2 ___  1:37:26
+
+example of flask run
+>>> from web_app.routes.twitter_routes import fetch_user
+>>> fetch_user('s2t2')
+s2t2
+'OK, got it dude!'
+>>>
