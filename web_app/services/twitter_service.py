@@ -13,10 +13,10 @@ TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 
 # could use a function here to return our api client
 # could use a class
-
 auth = OAuthHandler(TWITTER_API_KEY, TWITTER_API_SECRET)
 auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
 print("API AUTH: ", auth)
+
 api = API(auth)
 print("API CLIENT", api)
 

@@ -12,7 +12,6 @@ def fetch_user(screen_name=None):
     print(screen_name)
 
     # FETCHING DATA FROM THE TWITTER API
-
     twitter_user = twitter_api_client.get_user(screen_name)
 
     
@@ -32,16 +31,13 @@ def fetch_user(screen_name=None):
 
 
     #  FETCH TWEETS 
-
     tweets = twitter_api_client.user_timeline(screen_name, tweet_mode="extended", count=150) # status == tweets in twitter_api_client
     print("TWEETS COUNT:", len(tweets)) # sanity checks to see what we get, don't assume
 
     # STORING TWITTER DATA IN THE DATABASE
-
     all_tweet_texts = [status.full_text for status in tweets]
     embeddings = list(basilica_api_client.embed_sentences(all_tweet_texts, model="twitter"))
     print("NUMBER OF EMBEDDINGS", len(embeddings))
-
     
     for index, status in enumerate(tweets):
         print(index)
@@ -50,14 +46,7 @@ def fetch_user(screen_name=None):
 
         # embedding = basilica_api_client.embed_sentence(status.full_text, model="twitter") # todo: prefer to make a single request to basilica with all the tweet texts, instead of a request per tweet
         # print(len(embedding))
-
-        embeddings = embeddings[index]
-        
-        breakpoint()
-
-
-
-
+        embedding = embeddings[index]
 
         # get existing tweet from the db or initialize a new one:
         db_tweet = Tweet.query.get(status.id) or Tweet(id=status.id)
