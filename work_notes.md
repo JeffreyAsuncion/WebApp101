@@ -1120,8 +1120,177 @@ yes!!!
 
 
 
-9.  36:56  talking about build week
+9.  36:56  talking about build  
+
+
+10. git commit -m "trained a model and save pkl"
+Demonstrate how to save a pretrained model
+
 
 
 
 LECTURE 3 PART 2    0:49:57
+
+1. create 
+<!-- web_app/templates/prediction_form.html -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h2>Prediction Time</h2>
+
+    <p>Use the form below to predict which user is more likely to say a given tweet...</p>
+
+    <form action="/predict" method="POST">
+
+        <!-- TODO: Instead of hard-coding these drop-down menu options, dynamically populate them based on user records from the database -->
+        <label>Twitter User A:</label>
+        <select name="screen_name_a">
+            <option value="elonmusk" selected="true">@elonmusk</option>
+            <option value="justinbieber">@justinbieber</option>
+            <option value="s2t2">@s2t2</option>
+        </select>
+        <br>
+
+        <!-- TODO: Instead of hard-coding these drop-down menu options, dynamically populate them based on user records from the database -->
+        <label>Twitter User B:</label>
+        <select name="screen_name_b">
+            <option value="elonmusk">@elonmusk</option>
+            <option value="justinbieber" selected="true">@justinbieber</option>
+            <option value="s2t2">@s2t2</option>
+          </select>
+        <br>
+
+        <label>Tweet Text:</label>
+        <input type="text" name="tweet_text" placeholder="Tesla Model S production facility is great" value="Tesla Model S production facility is great">
+        <br>
+
+        <button>Submit</button>
+    </form>
+
+
+</body>
+</html>
+
+
+2. Let's make the prediction_form.html our homepage
+
+goto home_routes.py
+and change "index" to hello
+
+@home_routes.route("/hello") ### change from "/" to "/hello"
+def hello():  ####  change "index" to "hello"
+    x = 2 + 2
+    return f"Hello World! {x}"
+
+
+
+3. setup new HOME PAGE in home_routes.py
+from flask import Blueprint, render_template
+
+@home_routes.route("/")
+def index():
+    return render_template("prediction_form.html")
+
+
+
+4. create web_app/routes/stats_routes.py
+# web_app/routes/stats_routes.py
+
+from flask import Blueprint, request, jsonify, render_template
+#from sklearn.linear_model import LogisticRegression # for example
+#from web_app.models import User, Tweet
+#from web_app.services.basilica_service import basilica_api_client
+
+stats_routes = Blueprint("stats_routes", __name__)
+
+@stats_routes.route("/predict", methods=["POST"])
+def predict():
+    print("PREDICT ROUTE...")
+    print("FORM DATA:", dict(request.form)) 
+    #> {'screen_name_a': 'elonmusk', 'screen_name_b': 's2t2', 'tweet_text': 'Example tweet text here'}
+    screen_name_a = request.form["screen_name_a"]
+    screen_name_b = request.form["screen_name_b"]
+    tweet_text = request.form["tweet_text"]
+
+    print("-----------------")
+    print("FETCHING TWEETS FROM THE DATABASE...")
+   
+    #TODO
+
+    print("-----------------")
+    print("TRAINING THE MODEL...")
+    
+
+    print("-----------------")
+    print("MAKING A PREDICTION...")
+
+    # TODO
+    
+    return render_template("prediction_results.html",
+        screen_name_a=screen_name_a,
+        screen_name_b=screen_name_b,
+        tweet_text=tweet_text,
+        screen_name_most_likely="TODO" #result[0]
+    )
+
+#TODO REGISTER new stats_routes.py ROUTE IN __init__.py
+
+
+
+5. create predicition_result.html file
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Results!</h2>
+
+    <p>Between '@{{ screen_name_a }}' and '@{{ screen_name_b }}',
+        the user who is most likely to say '{{ tweet_text }}'
+        is '@{{ screen_name_most_likely }}'
+    </p>
+</body>
+</html>
+
+
+#TODO REGISTER new stats_routes.py ROUTE IN __init__.py
+
+
+
+6. goto to __init__.py and import the 
+from web_app.routes.stats_routes import stats_routes ############### Add this
+
+def create_app():
+    app = Flask(__name__)
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db.init_app(app)
+    migrate.init_app(app, db)
+
+    app.register_blueprint(home_routes)
+    app.register_blueprint(book_routes)
+    app.register_blueprint(twitter_routes)
+    app.register_blueprint(stats_routes)    ######################## Add this
+    return app
+
+
+
+7. flask run
+in prediction form type in "pizza hut is great"
+next page is prediction result page with prediction == TODO
+
+Yay! its working. without model
+
