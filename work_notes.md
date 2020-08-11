@@ -1294,3 +1294,66 @@ next page is prediction result page with prediction == TODO
 
 Yay! its working. without model
 
+8. git commit -m "routing for our predictions"
+
+9. Next change TODO to the real prediction 
+back to stats_routes.py
+
+from sklearn.linear_model import LogisticRegression # for example ########### Add this
+
+    print("-----------------")
+    print("FETCHING TWEETS FROM THE DATABASE...")
+
+    # get the embeddings
+
+    print("-----------------")
+    print("TRAINING THE MODEL...")
+    
+    classifier = LogisticRegression() #################### Add this
+    # X values / inputs: embeddings
+    # Y values / labels: screen_names
+
+    classifier.fit(embeddings, labels)
+
+
+
+10. how do we get the embeddings and labels?
+
+    classifier = LogisticRegression()
+    # X values / inputs: embeddings
+    # Y values / labels: screen_names
+    embeddings = [] 
+    labels = []
+    classifier.fit(embeddings, labels)
+
+11. use twitter_routes to get embeddings?
+no, they are already in the database
+
+from web_app.models import User
+
+    print("-----------------")
+    print("FETCHING TWEETS FROM THE DATABASE...")
+    # https://flask-sqlalchemy.palletsprojects.com/en/2.x/queries/
+    # get the embeddings (from database)
+    user_a = User.query.filter_by(screen_name=screen_name_a).first()
+    user_b = User.query.filter_by(screen_name=screen_name_b).first()
+    user_a_tweets = user_a.tweets
+    user_b_tweets = user_b.tweets
+    print("FETCHED TWEETS", len(user_a_tweets), len(user_b_tweets))
+
+    print("-----------------")
+    print("TRAINING THE MODEL...")
+    
+    # classifier = LogisticRegression()
+    # # X values / inputs: embeddings
+    # # Y values / labels: screen_names
+    # embeddings = []
+    # labels = []
+    # classifier.fit(embeddings, labels)
+
+12. flask run
+results page should come up
+make sure db tweets is populated first or you will get error
+
+1:15:23
+
