@@ -1347,13 +1347,104 @@ from web_app.models import User
     # classifier = LogisticRegression()
     # # X values / inputs: embeddings
     # # Y values / labels: screen_names
-    # embeddings = []
-    # labels = []
+    
+    embeddings = []
+    labels = []
+
+    breakpoint()
+
     # classifier.fit(embeddings, labels)
 
-12. flask run
-results page should come up
-make sure db tweets is populated first or you will get error
+12. flask run 1:15:23
+user_a_tweets                            # outputs an array of tweet objects
+user_a_tweets[0]                         #> <Tweet 1292997808576819200>
+user_a_tweets[0].embedding               #> <embedding for the first tweet
+user_a_tweets[0].user.screen_name        #> <'elonmusk'
 
-1:15:23
+13.
 
+    print("-----------------")
+    print("TRAINING THE MODEL...")
+    # X values / inputs: embeddings
+    # Y values / labels: screen_names
+
+    classifier = LogisticRegression()
+
+    embeddings = []
+    labels = []
+
+    for tweet in user_a_tweets:
+        embeddings.append(tweet.embedding)
+        labels.append(screen_name_a) # tweet.user.screen_name
+
+    for tweet in user_b_tweets:
+        embeddings.append(tweet.embedding)
+        labels.append(screen_name_b) # tweet.user.screen_name
+
+    classifier.fit(embeddings, labels)
+
+
+    print("-----------------")
+    print("MAKING A PREDICTION...")
+
+    breakpoint()
+
+
+
+14. flask run
+
+    print("-----------------")
+    print("FETCHING TWEETS FROM THE DATABASE...")
+    # https://flask-sqlalchemy.palletsprojects.com/en/2.x/queries/
+    # get the embeddings (from database)
+    user_a = User.query.filter_by(screen_name=screen_name_a).first()
+    user_b = User.query.filter_by(screen_name=screen_name_b).first()
+
+    user_a_tweets = user_a.tweets
+    user_b_tweets = user_b.tweets
+    print("FETCHED TWEETS", len(user_a_tweets), len(user_b_tweets))
+
+    print("-----------------")
+    print("TRAINING THE MODEL...")
+    # X values / inputs: embeddings
+    # Y values / labels: screen_names
+
+    classifier = LogisticRegression()
+
+    embeddings = []
+    labels = []
+
+    for tweet in user_a_tweets:
+        embeddings.append(tweet.embedding)
+        labels.append(screen_name_a) # tweet.user.screen_name
+
+    for tweet in user_b_tweets:
+        embeddings.append(tweet.embedding)
+        labels.append(screen_name_b) # tweet.user.screen_name
+
+    classifier.fit(embeddings, labels)
+
+    print("-----------------")
+    print("MAKING A PREDICTION...")
+
+    # breakpoint()
+
+    example_embed_a = user_a_tweets[3].embedding
+    example_embed_b = user_b_tweets[3].embedding
+
+    result = classifier.predict([example_embed_a, example_embed_b])
+    
+
+classifier     #> LogisticRegression()
+example_embed = user_a_tweets[3].embedding
+example_embed #> and array of nums / embedding fo tweet
+
+
+(Pdb) example_embed_a = user_a_tweets[3].embedding
+(Pdb) example_embed_b = user_b_tweets[3].embedding
+(Pdb) result = classifier.predict([example_embed_a, example_embed_b])
+(Pdb) result
+array(['elonmusk', 'justinbieber'], dtype='<U12')
+
+
+1:25:39

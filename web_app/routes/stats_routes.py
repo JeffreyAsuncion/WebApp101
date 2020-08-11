@@ -29,19 +29,33 @@ def predict():
 
     print("-----------------")
     print("TRAINING THE MODEL...")
-    
-    # classifier = LogisticRegression()
-    # # X values / inputs: embeddings
-    # # Y values / labels: screen_names
-    # embeddings = []
-    # labels = []
-    # classifier.fit(embeddings, labels)
+    # X values / inputs: embeddings
+    # Y values / labels: screen_names
 
+    classifier = LogisticRegression()
+
+    embeddings = []
+    labels = []
+
+    for tweet in user_a_tweets:
+        embeddings.append(tweet.embedding)
+        labels.append(screen_name_a) # tweet.user.screen_name
+
+    for tweet in user_b_tweets:
+        embeddings.append(tweet.embedding)
+        labels.append(screen_name_b) # tweet.user.screen_name
+
+    classifier.fit(embeddings, labels)
 
     print("-----------------")
     print("MAKING A PREDICTION...")
 
-    # TODO
+    # breakpoint()
+
+    example_embed_a = user_a_tweets[3].embedding
+    example_embed_b = user_b_tweets[3].embedding
+
+    result = classifier.predict([example_embed_a, example_embed_b])
     
     return render_template("prediction_results.html",
         screen_name_a=screen_name_a,
