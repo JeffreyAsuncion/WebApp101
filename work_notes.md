@@ -1447,4 +1447,76 @@ example_embed #> and array of nums / embedding fo tweet
 array(['elonmusk', 'justinbieber'], dtype='<U12')
 
 
-1:25:39
+
+15. these are commented out, they helped up to see the prediction
+
+    # example_embed_a = user_a_tweets[3].embedding
+    # example_embed_b = user_b_tweets[3].embedding
+
+    # result = classifier.predict([example_embed_a, example_embed_b])
+
+
+16. make a prediction with tweet_text
+
+    print("-----------------")
+    print("MAKING A PREDICTION...")
+    # example_embed_a = user_a_tweets[3].embedding
+    # example_embed_b = user_b_tweets[3].embedding
+
+    # result = classifier.predict([example_embed_a, example_embed_b])
+    
+
+    tweet_text
+
+    embeddings = ______________________ # we need tweet_text to be embedding to pass to classifier
+
+    result = classifier.predict([______________________])
+
+
+17. embeddings = list(basilica_api_client.embed_sentences(all_tweet_texts, model="twitter"))
+            from twitter_routes and use in stats_routes
+
+from web_app.services.basilica_service import connection as basilica_api_client
+
+
+    print("-----------------")
+    print("MAKING A PREDICTION...")
+    # example_embed_a = user_a_tweets[3].embedding
+    # example_embed_b = user_b_tweets[3].embedding
+
+    # result = classifier.predict([example_embed_a, example_embed_b])
+    
+    embedding = basilica_api_client.embed_sentence(tweet_text, model="twitter")
+
+    result = classifier.predict([embedding])
+     
+    breakpoint()
+
+18. flask run
+(Pdb) tweet_text #>  'Tesla Model S production facility is great'
+(Pdb) result     #>  array(['elonmusk'], dtype='<U12')
+(Pdb) result[0]  #>  'elonmusk'
+
+    print("-----------------")
+    print("MAKING A PREDICTION...")
+    # example_embed_a = user_a_tweets[3].embedding
+    # example_embed_b = user_b_tweets[3].embedding
+
+    # result = classifier.predict([example_embed_a, example_embed_b])
+    
+    embedding = basilica_api_client.embed_sentence(tweet_text, model="twitter")
+
+    result = classifier.predict([embedding])
+
+    breakpoint() # commented out before running
+
+
+    return render_template("prediction_results.html",
+        screen_name_a=screen_name_a,
+        screen_name_b=screen_name_b,
+        tweet_text=tweet_text,
+        screen_name_most_likely=result[0]    ################ this is from the breakpoint analysis
+    )
+
+19. Yay!!! it works it predicts now!
+git commit -m 'prediction working and result out to html'
