@@ -1,26 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our web app</title>
-</head>
-<body>
+<!-- web_app/templates/new_book.html -->
 
-    <h2>Welcome to the Books Page</h2>
+{% extends "layout.html" %}
+{% set active_page = "books" %}
 
-    <p>{{ message }}</p>
+{% block content %}
 
-    {% if books %}
-        <ul>
-        {% for book in books %}
-            <li>{{ book["title"] }}</li>
-        {% endfor %}
-        </ul>
+    <h1>New Book Page</h1>
 
-    {% else %}
-        <p>Books not found.</p>
-    {% endif %}
-    
-</body>
-</html>
+    <p>Please fill out the form and submit to create a new book!</p>
+
+    <form action="/books/create" method="POST">
+
+        <label>Title:</label>
+        <input type="text" name="title" placeholder="Book XYZ" value="Book XYZ">
+
+        <label>Author:</label>
+        <select name="author_name">
+          <option value="A1">Author 1</option>
+          <option value="A2">Author 2</option>
+          <option value="A3">Author 3</option>
+        </select>
+
+        <button>Submit</button>
+    </form>
+{% endblock %}
+

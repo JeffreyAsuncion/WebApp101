@@ -1520,3 +1520,131 @@ from web_app.services.basilica_service import connection as basilica_api_client
 
 19. Yay!!! it works it predicts now!
 git commit -m 'prediction working and result out to html'
+
+
+
+1:43:46
+
+Part X - Bonus 
+
+1. bootstrap_layout.html
+
+<!-- web_app/templates/layout.html -->
+
+<!doctype html>
+<html>
+  <head>
+    {% block title %}
+      <title>My Starter Web App | Helps students learn how to use the Flask Python package.</title>
+    {% endblock %}
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <!-- FLASH MESSAGING -->
+    <!-- see: http://flask.pocoo.org/docs/1.0/patterns/flashing/#flashing-with-categories -->
+    <!-- see: https://getbootstrap.com/docs/4.3/components/alerts/ -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- SITE NAVIGATION -->
+    <div class="container">
+      <div id="nav">
+        {% block nav %}
+          <h1><a href="/">My Web App</a></h1>
+          <ul>
+            <li><a href="/books">Books Page</a></li>
+            <li><a href="/books/new">New Book Form</a></li>
+          </ul>
+        {% endblock %}
+      </div>
+      <hr>
+
+      <!-- PAGE CONTENTS -->
+      <div id="content">
+        {% block content %}
+        {% endblock %}
+      </div>
+
+      <!-- FOOTER -->
+      <div id="footer">
+        <hr>
+        &copy; Copyright 2020 Jeffrey Asuncion |
+        <a href="https://github.com/prof-rossetti/">source</a>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT SECTION -->
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+        console.log("Thanks for the page visit!")
+
+        // closes data-dismiss="alert" flash messages
+        // see: https://getbootstrap.com/docs/4.3/components/alerts/#javascript-behavior
+        //$().alert('close')
+
+    </script>
+  </body>
+</html>
+
+
+
+2. for template in templates folder
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+
+{% endblock %}
+
+3. book.html
+
+<!-- web_app/templates/new_book.html -->
+
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <h1>New Book Page</h1>
+
+    <p>Please fill out the form and submit to create a new book!</p>
+
+    <form action="/books/create" method="POST">
+
+        <label>Title:</label>
+        <input type="text" name="title" placeholder="Book XYZ" value="Book XYZ">
+
+        <label>Author:</label>
+        <select name="author_name">
+          <option value="A1">Author 1</option>
+          <option value="A2">Author 2</option>
+          <option value="A3">Author 3</option>
+        </select>
+
+        <button>Submit</button>
+    </form>
+{% endblock %}
+
+
+
+4. 
+Or this slightly more complex Twitter Bootstrap Navbar Layout, 
+in which case you'll also need to add 
+{% set active_page = "books" %} to the "books.html" 
+
+and {% set active_page = "new_book" %} to the "new_book.html".
+
+
+5.
