@@ -517,9 +517,6 @@ one option is to use the requests package to directly issue HTTP requests to the
 Using the requests package to issue HTTP requests:
 
 https://github.com/psf/requests
-
-
-
 https://requests.readthedocs.io/en/master/
 https://raw.githubusercontent.com/prof-rossetti/intro-to-python/master/data/products.json
 https://github.com/prof-rossetti/intro-to-python/blob/master/notes/python/packages/requests.md
