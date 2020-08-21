@@ -517,6 +517,9 @@ one option is to use the requests package to directly issue HTTP requests to the
 Using the requests package to issue HTTP requests:
 
 https://github.com/psf/requests
+
+
+
 https://requests.readthedocs.io/en/master/
 https://raw.githubusercontent.com/prof-rossetti/intro-to-python/master/data/products.json
 https://github.com/prof-rossetti/intro-to-python/blob/master/notes/python/packages/requests.md
@@ -1647,4 +1650,4 @@ in which case you'll also need to add
 and {% set active_page = "new_book" %} to the "new_book.html".
 
 
-5.
+5. 1:55:15
